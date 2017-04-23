@@ -1,0 +1,6 @@
+# -*- mode: Dockerfile -*-
+FROM postgres:9.6.2
+
+MAINTAINER kiririmode
+
+ADD init-gitbucket-db.sh /docker-entrypoint-initdb.d/init-gitbucket-db.sh

@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  redmine:
+    image: redmine:3.3.3
+    ports:
+      - 3000:3000
+    environment:
+      REDMINE_DB_POSTGRES: db
+      REDMINE_DB_USERNAME: postgres
+      REDMINE_DB_PASSWORD: password
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    restart: always
+
+  gitbucket:
+    build:
+      context: .
+      dockerfile: Dockerfile.gitbucket
+    ports:
+      - 8080:8080
+    command: ["/gitbucket/wait-for-it.sh", "db:5432", "--", "java", "-jar", "/opt/gitbucket.war"]
+    depends_on:
+      - db
+    restart: always

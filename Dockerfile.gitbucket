@@ -1,0 +1,7 @@
+# -*- mode: Dockerfile -*-
+FROM takezoe/gitbucket
+
+MAINTAINER kiririmode
+
+ADD database.conf /gitbucket/database.conf
+ADD wait-for-it/wait-for-it.sh /gitbucket/wait-for-it.sh
